@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+import discord
+from discord.ext import commands
+import os
+
+client = commands.Bot(command_prefix = r'/')
+
+@client.command()
+@commands.has_permissions(admin=True)
+async def load(ctx, extension):
+    client.load_extension(f'scripts.{extension}')
+
+@client.command()
+@commands.has_permissions(admin=True)
+async def unload(ctx, extension):
+    client.unload_extension(f'scripts.{extension}')
+
+for file in os.listdir('./scripts'):
+    client.load_extension(f'scripts.{file}')
+
+client.run('bot-token')
