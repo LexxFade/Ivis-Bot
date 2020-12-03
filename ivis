@@ -1,21 +1,36 @@
 #!/usr/bin/env python
 import discord
 from discord.ext import commands
-import os
+from scripts import request
 
 client = commands.Bot(command_prefix = r'/')
+client.remove_command("help")
+
+@client.event
+async def on_ready():
+    await client.change_presence(activity=discord.Game('with humans'))
+    print("hola humans ;)")
+
+@client.command(aliases=['youtube', 'YOUTUBE'])
+async def yt(ctx, *, query):
+    await ctx.send(f"https://{request.youtube(query)}")
 
 @client.command()
-@commands.has_permissions(admin=True)
-async def load(ctx, extension):
-    client.load_extension(f'scripts.{extension}')
+async def ping(ctx):
+    await ctx.send(f"📡 {int(client.latency * 1000)}m/s")
 
-@client.command()
-@commands.has_permissions(admin=True)
-async def unload(ctx, extension):
-    client.unload_extension(f'scripts.{extension}')
+@client.command(aliases=['motivate'])
+async def motivation(ctx):
+    await ctx.send(f'https://tenor.com/view/{request.motivation()}')
 
-for file in os.listdir('./scripts'):
-    client.load_extension(f'scripts.{file}')
+@client.command(aliases=['info', 'about', 'HELP'])
+async def help(ctx):
+    embed=discord.Embed(title=r"°✧ :ribbon: **HЄLPÐЄSK** :ribbon: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=0xc15a95)
+    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://78.media.tumblr.com/199990118cd899f2ef5c85dd5b92817b/tumblr_p6a6rc8fy91th57iio10_500.png")
+    embed.set_thumbnail(url="https://vectorified.com/images/anime-recycle-bin-icon-11.png")
+    embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.help('about'), inline=False)
+    embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.help('confessions'), inline=False)
+    embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.help('commands'))
+    await ctx.send(embed=embed)
 
 client.run('bot-token')
