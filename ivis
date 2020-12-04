@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import discord
 from discord.ext import commands
-from scripts import request
+from datetime import datetime
+import request
 
 client = commands.Bot(command_prefix = r'/')
 client.remove_command("help")
@@ -11,18 +12,22 @@ async def on_ready():
     await client.change_presence(activity=discord.Game('with humans'))
     print("hola humans ;)")
 
+@commands.guild_only()
 @client.command(aliases=['youtube', 'YOUTUBE'])
 async def yt(ctx, *, query):
     await ctx.send(f"https://{request.youtube(query)}")
 
+@commands.guild_only()
 @client.command()
 async def ping(ctx):
     await ctx.send(f"📡 {int(client.latency * 1000)}m/s")
 
+@commands.guild_only()
 @client.command(aliases=['motivate'])
 async def motivation(ctx):
     await ctx.send(f'https://tenor.com/view/{request.motivation()}')
 
+@commands.guild_only()
 @client.command(aliases=['info', 'about', 'HELP'])
 async def help(ctx):
     embed=discord.Embed(title=r"°✧ :ribbon: **HЄLPÐЄSK** :ribbon: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=0xc15a95)
@@ -31,6 +36,34 @@ async def help(ctx):
     embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.help('about'), inline=False)
     embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.help('confessions'), inline=False)
     embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.help('commands'))
+    embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
     await ctx.send(embed=embed)
+
+@commands.guild_only()
+@client.command(aliases=['confessinit', 'setconfess'])
+async def confesschannel(ctx, given_id):
+    channel_id = given_id
+    #todo save this in a file
+    await ctx.send(f"<#{channel_id}> has been set as the confession channel.")
+
+@client.command(aliases=['listen', 'confession'])
+async def confess(ctx, *, confession):
+    channel_id = request.channel_id()
+    if channel_id == None:
+        await ctx.send("Confession Channel has not been configured by the server staff. Spam their ass off :smiling_imp:\njkjk :joy:")
+    else:
+        if (len(confession) > 15):
+            channel = client.get_channel(channel_id)
+            time_now = datetime.now()
+            unique_id = request.random_id()
+            time_syntaxed = time_now.strftime("%d/%m %H:%M")
+            embed = discord.Embed(title=r"°✧ :ribbon: **CONFESSION** :ribbon: ✧°", description = confession, color=request.random_color())
+            embed.set_thumbnail(url="https://i.pinimg.com/originals/a3/8f/60/a38f60f5ec45b027a0922a7884e8925f.png")
+            embed.set_author(name=f"id: {unique_id}")
+            embed.set_footer(text=time_syntaxed)
+            await channel.send(embed=embed)
+            await ctx.send(f"Your confession has been posted at <#{channel_id}> with id: {unique_id}")
+        else:
+            await ctx.send("C'mon fam no confession is that small :/")
 
 client.run('bot-token')
