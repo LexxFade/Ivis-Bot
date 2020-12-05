@@ -13,11 +13,11 @@ Until n unless you leak our chat, no one would ever find out who made what confe
 commands = '''
 **/confess {message}**
 - DM me this with your message and I will post your message in the confession channel anonymously.
-- __Aliases__: `/listen {message}` `/confession {message}`
+- __Aliases__: `/listen {message}` | `/confession {message}`
 
 **/youtube {query}**
 - Search for YouTube videos right from discord!
-- __Aliases__: `/yt {query}` `/vid {query}`
+- __Aliases__: `/yt {query}` | `/vid {query}`
 
 **/motivate**
 - Feeling low? try this command to get motivation :heart:
@@ -25,22 +25,14 @@ commands = '''
 
 **/aur {package}**
 - Find packages on AUR with its `git-clone`
-- __Aliases__: `/arch {package}` `/git-clone {package}`
+- __Aliases__: `/arch {package}` | `/git-clone {package}`
 
 **/ping**
 - Pretty self-explanatory command, I guess?
 
 **/help**
 - Get this help menu
-- __Aliases__: `/about` `/info`'''
-
-def help(requirement):
-    if requirement == "about":
-        return about
-    elif requirement == "confessions":
-        return confessions
-    elif requirement == "commands":
-        return commands
+- __Aliases__: `/about` | `/info`'''
 
 def youtube(query):
     query = sub(r'\W+', '%20', query)
