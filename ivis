@@ -43,9 +43,9 @@ async def help(ctx):
     embed=discord.Embed(title="°✧ :ribbon: **HЄLPÐЄSK** :ribbon: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
     embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
     embed.set_thumbnail(url="https://i.ibb.co/4FsyjQR/ivis.png")
-    embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.help('about'), inline=False)
-    embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.help('confessions'), inline=False)
-    embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.help('commands'))
+    embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.about, inline=False)
+    embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.confessions, inline=False)
+    embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.commands))
     embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
     await ctx.send(embed=embed)
 
