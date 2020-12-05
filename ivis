@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-import discord
+import discord, request
 from discord.ext import commands
 from datetime import datetime
-import request
 
 client = commands.Bot(command_prefix = r'/')
 client.remove_command("help")
@@ -17,6 +16,17 @@ async def on_ready():
 async def yt(ctx, *, query):
     await ctx.send(f"https://{request.youtube(query)}")
 
+@youtube.error
+async def youtube_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed=discord.Embed(title="YouTube", url="https://www.youtube.com", color=0xff0000)
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://img.talkandroid.com/uploads/2014/06/YouTube_App_Large_Icon-450x450.png")
+        embed.add_field(name="About", value="Search youtube videos right here from discord!", inline=False)
+        embed.add_field(name="Commands", value="`/yt {query}` | `/youtube {query}` | `/vid {query}`", inline=False)
+        embed.set_footer(text="type /help for more info")
+        await ctx.send(embed=embed)
+
 @commands.guild_only()
 @client.command()
 async def ping(ctx):
@@ -30,9 +40,9 @@ async def motivation(ctx):
 @commands.guild_only()
 @client.command(aliases=['info', 'about', 'HELP'])
 async def help(ctx):
-    embed=discord.Embed(title=r"°✧ :ribbon: **HЄLPÐЄSK** :ribbon: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=0xc15a95)
-    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://78.media.tumblr.com/199990118cd899f2ef5c85dd5b92817b/tumblr_p6a6rc8fy91th57iio10_500.png")
-    embed.set_thumbnail(url="https://vectorified.com/images/anime-recycle-bin-icon-11.png")
+    embed=discord.Embed(title="°✧ :ribbon: **HЄLPÐЄSK** :ribbon: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
+    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+    embed.set_thumbnail(url="https://i.ibb.co/4FsyjQR/ivis.png")
     embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.help('about'), inline=False)
     embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.help('confessions'), inline=False)
     embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.help('commands'))
@@ -45,6 +55,11 @@ async def confesschannel(ctx, given_id):
     channel_id = given_id
     #todo save this in a file
     await ctx.send(f"<#{channel_id}> has been set as the confession channel.")
+
+@confesschannel.error
+async def confesschannel_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("type `/confesschannel {channel-id}` without `{}`\n**Note:** Enter `channel-id` and not just ping the channel-`#channel`")
 
 @client.command(aliases=['listen', 'confession'])
 async def confess(ctx, *, confession):
@@ -65,5 +80,25 @@ async def confess(ctx, *, confession):
             await ctx.send(f"Your confession has been posted at <#{channel_id}> with id: {unique_id}")
         else:
             await ctx.send("C'mon fam no confession is that small :/")
+
+@confess.error
+async def confess_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed=discord.Embed(title="Confession", color=request.random_color())
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://cdn.pixabay.com/photo/2013/07/13/12/47/girl-160326__340.png")
+        embed.add_field(name="About", value="DM me your confession and I will post it in the confession channel anonymously ;)", inline=False)
+        embed.add_field(name="DM Syntax", value="`/listen {message}` | `/confess {message}` | `/confession {message}`", inline=False)
+        embed.set_footer(text="type /help for more info")
+        await ctx.send(embed=embed)
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        embed=discord.Embed(title="Command Not Found", description="The command you're trying does not exists....yet.\nAdd issues/PR on my GitHub if you have more suggestions", color=request.random_color())
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://i.pinimg.com/originals/6c/da/e5/6cdae5ec608d8df875c5766a5c24bf3e.png")
+        embed.set_footer(text="type /help for bot-commands")
+        await ctx.send(embed=embed)
 
 client.run('bot-token')
