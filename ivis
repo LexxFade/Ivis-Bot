@@ -28,6 +28,30 @@ async def youtube_error(ctx, error):
         await ctx.send(embed=embed)
 
 @commands.guild_only()
+@client.command(aliases=['arch', 'AUR', 'git-clone'])
+async def aur(ctx, *, query):
+    aur_result = request.aur(query)
+    embed=discord.Embed(title=f"more results of {query}", url=f"https://aur.archlinux.org/packages/?O=0&SeB=n&K={aur_result[0]}&outdated=&SB=p&SO=d&PP=50&do_Search=Go", color=request.random_color())
+    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+    embed.set_thumbnail(url="https://ilug-cal.org/wp-content/uploads/2018/10/arch-linux.png")
+    for i in range(1, 6):
+        embed.add_field(name="aur_result[i][0]", value="aur_result[i][1]", inline=False)
+
+    embed.set_footer(text="type /help for more info")
+    await ctx.send(embed=embed)
+
+@aur.error
+async def aur_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed=discord.Embed(title="Arch User Repository", url="https://aur.archlinux.org/", color=0x1791cf)
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://ilug-cal.org/wp-content/uploads/2018/10/arch-linux.png")
+        embed.add_field(name="About", value="Search for AUR packages, and their `git-clone`, right here from discord!", inline=False)
+        embed.add_field(name="Commands", value="`aur {package name}` | `arch {package name}` |\n `git-clone {package name}`", inline=False)
+        embed.set_footer(text="type /help for more info")
+        await ctx.send(embed=embed)
+
+@commands.guild_only()
 @client.command()
 async def ping(ctx):
     await ctx.send(f"📡 {int(client.latency * 1000)}m/s")
