@@ -34,8 +34,11 @@ commands = '''
 - Get this help menu
 - __Aliases__: `/about` | `/info`'''
 
+def char_manage(text, new_char):
+    return sub(r'\W+', new_char, text)
+
 def youtube(query):
-    query = sub(r'\W+', '%20', query)
+    query = char_manage(query, "%20")
     ddg_link = r"https://duckduckgo.com/html?q=" + "\"youtube.com/watch?v=\"%20" + query
     ddg_data = uReq(ddg_link).read()
     ddg_soup = soup(ddg_data, 'html.parser')
@@ -48,8 +51,21 @@ def motivation():
     gif_list = [] #todo add gifs here
     return gif_list[random.randint(0, ((len(gif_list))-1))]
 
-def aur(query):
-    pass
+def aur(package_name):
+    package = char_manage(package_name, "%20")
+    package_link = f"https://aur.archlinux.org/packages/?O=0&SeB=n&K={package}&outdated=&SB=p&SO=d&PP=50&do_Search=Go"
+    return_list = [package_link]
+    aur_data = uReq(package_link).read()
+    aur_soup = soup(aur_data, 'html.parser')
+
+    results = aur_soup.find("tbody")
+    index = 1
+    for single_result in results.findAll("a"):
+        index += 1
+        if (index % 2 == 0) and (index < 12):
+            return_list.append(single_result.text)
+
+    return return_list
 
 def channel_id():
     pass
