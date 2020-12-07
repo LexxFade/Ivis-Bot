@@ -52,18 +52,35 @@ def motivation():
     return gif_list[random.randint(0, ((len(gif_list))-1))]
 
 def aur(package_name):
-    package = char_manage(package_name, "%20")
+    package = char_manage(package_name, "-")
     package_link = f"https://aur.archlinux.org/packages/?O=0&SeB=n&K={package}&outdated=&SB=p&SO=d&PP=50&do_Search=Go"
     return_list = [package_link]
     aur_data = uReq(package_link).read()
     aur_soup = soup(aur_data, 'html.parser')
 
-    results = aur_soup.find("tbody")
-    index = 1
-    for single_result in results.findAll("a"):
-        index += 1
-        if (index % 2 == 0) and (index < 12):
-            return_list.append(single_result.text)
+    try:
+        index = 1
+        for title in aur_soup.find("tbody").findAll("a"):
+            index += 1
+            if (index % 2 == 0) and (index < 12):
+                return_list.append([title.text, "", -1])
+        
+        out_index = 0
+        in_index = 0
+        for other_details in aur_soup.tbody.find_all('td'):
+            out_index += 1
+            if (out_index + 1) % 6 == 0:
+                return_list[(in_index) + 1][2] = other_details.text
+                in_index += 1
+
+            elif ((out_index + 1) % 3 == 0):
+                return_list[(in_index) + 1][1] = other_details.text
+            
+            if return_list[-1][2] != -1:
+                break
+                
+    except AttributeError:
+        return_list.append(0)
 
     return return_list
 
