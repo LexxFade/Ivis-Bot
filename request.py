@@ -84,9 +84,6 @@ def aur(package_name):
 
     return return_list
 
-def channel_id():
-    pass
-
 def random_id():
     length = random.randint(10, 15)
     letters_and_digits = string.ascii_letters + string.digits
