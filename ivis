@@ -11,6 +11,16 @@ async def on_ready():
     await client.change_presence(activity=discord.Game('with humans'))
     print("hola humans ;)")
 
+@client.event
+async def on_member_join(member):
+    embed=discord.Embed(title="°✧ :ribbon: **WЄLCOMЄ** :ribbon: ✧°", description="︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
+    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")    
+    embed.set_thumbnail(url= member.avatar_url)
+    embed.add_field(name="°", value=f"Greetings {member}!\nCheck out #rules and #roles to get started.\n**✧**", inline=False)
+    embed.set_footer(text=f"Total members: {len(list(member.guild.members))}", icon_url=member.guild.icon_url)
+    farm = client.get_channel(id=_______________)
+    await farm.send(embed=embed)
+
 @commands.guild_only()
 @client.command(aliases=['youtube', 'YOUTUBE'])
 async def yt(ctx, *, query):
