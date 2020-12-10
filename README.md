@@ -16,18 +16,18 @@ command: `/setconfess {channel}`
 
 ### Other Commands
 - `/help` <br>show help embed with all commands and aliases <br>
-![help command](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/help.png?token=ARZFF2OK4Q3KR7VUDV7OB3K72IP7G)
+![help command](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/help.png)
 
 - `/youtube {query}` <br>search **query** on YouTube and return vid link <br>
-![youtube](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/yt.png?token=ARZFF2IEZVMDZWXNRFYVYV272IP7K)
+![youtube](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/yt.png)
 
 - `/aur {package}` <br>search for **package** on Arch User Repository and return **git-clone** links <br>
-![arch user repo](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/aur.png?token=ARZFF2I5NFK7VZYZT7Y5HLS72IP7E)
+![arch user repo](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/aur.png)
 
 - `/motivate` <br>get motivational message <br>
 
 - `/ping` <br>check ping <br>
-![ping](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/ping.png?token=ARZFF2NYXHT6S5MDQOZL4C272IP7I)
+![ping](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/ping.png)
 
 ### Extend
 Ivis can be extended in either of the following ways:
