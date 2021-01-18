@@ -26,7 +26,7 @@ async def on_member_join(member):
 async def yt(ctx, *, query):
     await ctx.send(f"https://{request.youtube(query)}")
 
-@youtube.error
+@yt.error
 async def youtube_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         embed=discord.Embed(title="YouTube", url="https://www.youtube.com", color=0xff0000)
@@ -83,7 +83,7 @@ async def help(ctx):
     embed.set_thumbnail(url="https://i.ibb.co/4FsyjQR/ivis.png")
     embed.add_field(name="𝔸𝕓𝕠𝕦𝕥", value=request.about, inline=False)
     embed.add_field(name="ℂ𝕠𝕟𝕗𝕖𝕤𝕤𝕚𝕠𝕟", value=request.confessions, inline=False)
-    embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.commands))
+    embed.add_field(name="ℂ𝕠𝕞𝕞𝕒𝕟𝕕𝕤", value=request.commands)
     embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
     await ctx.send(embed=embed)
 
