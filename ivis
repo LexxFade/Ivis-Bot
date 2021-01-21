@@ -3,14 +3,37 @@ import discord, request
 from discord.ext import commands
 from datetime import datetime
 
+#! ==
+#! Bot frontend
+#// install "Better Comments" extension to have color coded commments
+#// for clearer code understanding.
+#! ==
+
 client = commands.Bot(command_prefix = r'/')
 client.remove_command("help")
 
+#! ADD DETAILS HERE
+bot_token = ""
+welcome_channel_id = ""
+
+#! ==
+
+#?     _       _ _   _       _ _         
+#?   (_)_ __ (_) |_(_) __ _| (_)_______ 
+#?   | | '_ \| | __| |/ _` | | |_  / _ \
+#?   | | | | | | |_| | (_| | | |/ /  __/
+#?   |_|_| |_|_|\__|_|\__,_|_|_/___\___|
+#?
+#* These functions will trigger automatically.
+
+#! PRINT MESSAGE ON ACTIVATION
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Game('with humans'))
     print("hola humans ;)")
 
+
+#! GREET NEW USERS
 @client.event
 async def on_member_join(member):
     embed=discord.Embed(title="°✧ :ribbon: **WЄLCOMЄ** :ribbon: ✧°", description="︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
@@ -18,25 +41,27 @@ async def on_member_join(member):
     embed.set_thumbnail(url= member.avatar_url)
     embed.add_field(name="°", value=f"Greetings {member}!\nCheck out #rules and #roles to get started.\n**✧**", inline=False)
     embed.set_footer(text=f"Total members: {len(list(member.guild.members))}", icon_url=member.guild.icon_url)
-    farm = client.get_channel(id=_______________)
+    farm = client.get_channel(id=welcome_channel_id)
     await farm.send(embed=embed)
 
+#! ==
+
+#?                                                  _     
+#?     ___ ___  _ __ ___  _ __ ___   __ _ _ __   __| |___ 
+#?    / __/ _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` / __|
+#?   | (_| (_) | | | | | | | | | | | (_| | | | | (_| \__ \
+#?    \___\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|___/
+#?   
+#* Commands which will be triggered by the user 
+
+#! YOUTUBE COMMAND
 @commands.guild_only()
 @client.command(aliases=['youtube', 'YOUTUBE'])
 async def yt(ctx, *, query):
-    await ctx.send(f"https://{request.youtube(query)}")
+    await ctx.send(f"https://youtube.com/watch?v={request.youtube(query)}")
 
-@yt.error
-async def youtube_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        embed=discord.Embed(title="YouTube", url="https://www.youtube.com", color=0xff0000)
-        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
-        embed.set_thumbnail(url="https://img.talkandroid.com/uploads/2014/06/YouTube_App_Large_Icon-450x450.png")
-        embed.add_field(name="About", value="Search youtube videos right here from discord!", inline=False)
-        embed.add_field(name="Commands", value="`/yt {query}` | `/youtube {query}` | `/vid {query}`", inline=False)
-        embed.set_footer(text="type /help for more info")
-        await ctx.send(embed=embed)
 
+#! ARCH USER REPOSITORY
 @commands.guild_only()
 @client.command(aliases=['arch', 'AUR', 'git-clone'])
 async def aur(ctx, *, query):
@@ -54,27 +79,22 @@ async def aur(ctx, *, query):
     embed.set_footer(text="type /help for more info")
     await ctx.send(embed=embed)
 
-@aur.error
-async def aur_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        embed=discord.Embed(title="Arch User Repository", url="https://aur.archlinux.org/", color=0x1791cf)
-        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
-        embed.set_thumbnail(url="https://ilug-cal.org/wp-content/uploads/2018/10/arch-linux.png")
-        embed.add_field(name="About", value="Search for AUR packages, and their `git-clone`, right here from discord!", inline=False)
-        embed.add_field(name="Commands", value="`aur {package name}` | `arch {package name}` |\n `git-clone {package name}`", inline=False)
-        embed.set_footer(text="type /help for more info")
-        await ctx.send(embed=embed)
 
+#! PING
 @commands.guild_only()
 @client.command()
 async def ping(ctx):
     await ctx.send(f"📡 {int(client.latency * 1000)}m/s")
 
+
+#! MOTIVATION
 @commands.guild_only()
 @client.command(aliases=['motivate'])
 async def motivation(ctx):
     await ctx.send(f'https://tenor.com/view/{request.motivation()}')
 
+
+#! HELP
 @commands.guild_only()
 @client.command(aliases=['info', 'about', 'HELP'])
 async def help(ctx):
@@ -87,6 +107,8 @@ async def help(ctx):
     embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
     await ctx.send(embed=embed)
 
+
+#! SET CONFESSION CHANNEL
 @commands.guild_only()
 @client.command(aliases=['confessinit', 'setconfess'])
 async def confesschannel(ctx, given_id):
@@ -95,11 +117,8 @@ async def confesschannel(ctx, given_id):
     file.close()
     await ctx.send(f"{given_id} has been set as the confession channel.")
 
-@confesschannel.error
-async def confesschannel_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("type `/confesschannel {channel-id}` without `{}`\n**Note:** Enter `channel-id` and not just ping the channel-`#channel`")
 
+#! CONFESSION COMMAND
 @client.command(aliases=['listen', 'confession'])
 async def confess(ctx, *, confession):
     if isinstance(ctx.channel, discord.channel.DMChannel):
@@ -126,6 +145,49 @@ async def confess(ctx, *, confession):
     else:
         await ctx.send("its better to confess in DMs :)")
 
+#! ==
+
+#?    ___ _ __ _ __ ___  _ __ ___ 
+#?   / _ \ '__| '__/ _ \| '__/ __|
+#?  |  __/ |  | | | (_) | |  \__ \
+#?   \___|_|  |_|  \___/|_|  |___/
+#?                                
+#* instead of giving error messages on invalid syntax, bot will show commmand info
+
+#! YT CMD INFO
+@yt.error
+async def youtube_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed=discord.Embed(title="YouTube", url="https://www.youtube.com", color=0xff0000)
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://img.talkandroid.com/uploads/2014/06/YouTube_App_Large_Icon-450x450.png")
+        embed.add_field(name="About", value="Search youtube videos right here from discord!", inline=False)
+        embed.add_field(name="Commands", value="`/yt {query}` | `/youtube {query}` | `/vid {query}`", inline=False)
+        embed.set_footer(text="type /help for more info")
+        await ctx.send(embed=embed)
+
+
+#! AUR CMD INFO
+@aur.error
+async def aur_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed=discord.Embed(title="Arch User Repository", url="https://aur.archlinux.org/", color=0x1791cf)
+        embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://ilug-cal.org/wp-content/uploads/2018/10/arch-linux.png")
+        embed.add_field(name="About", value="Search for AUR packages, and their `git-clone`, right here from discord!", inline=False)
+        embed.add_field(name="Commands", value="`aur {package name}` | `arch {package name}` |\n `git-clone {package name}`", inline=False)
+        embed.set_footer(text="type /help for more info")
+        await ctx.send(embed=embed)
+
+
+#! ABOUT ADDING/MODIFYING CONFESSION CHANNEL
+@confesschannel.error
+async def confesschannel_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("type `/confesschannel {channel-id}` without `{}`\n**Note:** Enter `channel-id` and not just ping the channel-`#channel`")
+
+
+#! CONFESSION INFO
 @confess.error
 async def confess_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -137,6 +199,23 @@ async def confess_error(ctx, error):
         embed.set_footer(text="type /help for more info")
         await ctx.send(embed=embed)
 
+
+#! COVID STATS FOR DEFAULT PLACE WOULD BE SHOWED IF NO COUNTRY NAME IS PROVIDED
+@covidstats.error
+async def covidstats_error(ctx, error):
+    #! add default country and state here
+    stats = request.covid("default_country", "default_state")
+    embed=discord.Embed(title="°✧ :alembic: **Covid Stats** :microbe: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
+    embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+    embed.set_thumbnail(url="https://www.distancecme.com/wp-content/uploads/2020/03/coronavirus_round.png")
+    embed.add_field(name="Confirmed Cases", value=stats[0], inline=False)
+    embed.add_field(name="Recovered", value=stats[1], inline=False)
+    embed.add_field(name="Died", value=stats[2])
+    embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
+    await ctx.send(embed=embed)
+
+
+#! INVALID COMMAND- SHOW MESSAGE HOW TO GET INVOLVED IN DEVELOPMENT AKA SHARE SUGGESTIONS
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
@@ -146,4 +225,6 @@ async def on_command_error(ctx, error):
         embed.set_footer(text="type /help for bot-commands")
         await ctx.send(embed=embed)
 
-client.run('bot-token')
+#! ==
+
+client.run(bot_token)
