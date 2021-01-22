@@ -103,13 +103,6 @@ async def ping(ctx):
     await ctx.send(f"📡 {int(client.latency * 1000)}m/s")
 
 
-#! MOTIVATION
-@commands.guild_only()
-@client.command(aliases=['motivate'])
-async def motivation(ctx):
-    await ctx.send(f'https://tenor.com/view/{request.motivation()}')
-
-
 #! HELP
 @commands.guild_only()
 @client.command(aliases=['info', 'about', 'HELP'])
