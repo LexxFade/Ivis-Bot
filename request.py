@@ -30,10 +30,6 @@ commands = '''
 - Search for YouTube videos right from discord!
 - __Aliases__: `/yt {query}` | `/vid {query}`
 
-**/motivate**
-- Feeling low? try this command to get motivation :heart:
-- __Alias__: `/motivation`
-
 **/aur {package}**
 - Find packages on AUR with its `git-clone`
 - __Aliases__: `/arch {package}` | `/git-clone {package}`
@@ -68,12 +64,6 @@ def youtube(query):
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
     return(video_ids[0])
 
-
-#! gets random motivation message
-def motivation():
-    #! https://github.com/surhud004/Foodish#readme
-    gif_list = [] #todo add gifs here
-    return gif_list[random.randint(0, ((len(gif_list))-1))]
 
 
 #! searches for package name on <https://aur.archlinux.org/>
