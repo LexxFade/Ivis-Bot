@@ -24,7 +24,7 @@ command: `/setconfess {channel}`
 - `/aur {package}` <br>search for **package** on Arch User Repository and return **git-clone** links <br>
 ![arch user repo](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/aur.png)
 
-- `/motivate` <br>get motivational message <br>
+- `/covid {country} (state)` <br>get covid stats for the given location. If no **state** if specified then stats for whole country is given. <br>
 
 - `/ping` <br>check ping <br>
 ![ping](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/ping.png)
