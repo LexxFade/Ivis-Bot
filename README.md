@@ -25,6 +25,7 @@ command: `/setconfess {channel}`
 ![arch user repo](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/aur.png)
 
 - `/covid {country} (state)` <br>get covid stats for the given location. If no **state** if specified then stats for whole country is given. <br>
+API used: [ M-Media-Group - Covid-19-API ](https://github.com/M-Media-Group/Covid-19-API) <br>
 
 - `/ping` <br>check ping <br>
 ![ping](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/ping.png)
