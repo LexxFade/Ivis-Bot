@@ -65,7 +65,6 @@ def youtube(query):
     return(video_ids[0])
 
 
-
 #! searches for package name on <https://aur.archlinux.org/>
 def aur(package_name):
     package = char_manage(package_name, "-")
@@ -111,8 +110,8 @@ def randomadvice():
 #! gets covid stats for the given location from <https://github.com/M-Media-Group/Covid-19-API>
 def covid(country, state):
     try:
-        countryStats = requests.get(f"https://covid-api.mmediagroup.fr/v1/cases?country={country.capitalize()}").json
-        stateStats = countryStats[state.capitalize()]
+        countryStats = requests.get(f"https://covid-api.mmediagroup.fr/v1/cases?country={country}").json()
+        stateStats = countryStats[state]
         return [stateStats['confirmed'], stateStats['recovered'], stateStats['deaths']]
     except: #* if given location doesn't exists
         return 0
