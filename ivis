@@ -18,7 +18,7 @@ welcome_channel_id = ""
 
 #! ==
 
-#?     _       _ _   _       _ _         
+#?    _       _ _   _       _ _         
 #?   (_)_ __ (_) |_(_) __ _| (_)_______ 
 #?   | | '_ \| | __| |/ _` | | |_  / _ \
 #?   | | | | | | |_| | (_| | | |/ /  __/
@@ -43,6 +43,7 @@ async def on_member_join(member):
     embed.set_footer(text=f"Total members: {len(list(member.guild.members))}", icon_url=member.guild.icon_url)
     farm = client.get_channel(id=welcome_channel_id)
     await farm.send(embed=embed)
+
 
 #! COVID STATUS
 @client.command(aliases=['covid', 'corona'])
@@ -154,6 +155,24 @@ async def confess(ctx, *, confession):
     else:
         await ctx.send("its better to confess in DMs :)")
 
+
+#! COVID STATUS
+@client.command(aliases=['covid', 'corona'])
+async def covidstats(ctx, country, state="All"):
+    country, state = country.capitalize(), state.capitalize()
+    stats = request.covid(country, state)
+    if stats == 0:
+        await ctx.send("Location not found :confused:")
+    else:
+        embed=discord.Embed(title="°✧ :alembic: **Covid Stats** :microbe: ✧°", description=f"︶︶︶︶︶︶︶︶︶︶︶︶˚\n**{state}, {country}**", color=request.random_color())
+        embed.set_author(name="ivis#8643", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
+        embed.set_thumbnail(url="https://www.distancecme.com/wp-content/uploads/2020/03/coronavirus_round.png")
+        embed.add_field(name="Confirmed Cases", value=stats[0], inline=False)
+        embed.add_field(name="Recovered", value=stats[1], inline=False)
+        embed.add_field(name="Died", value=stats[2])
+        embed.set_footer(text='GitHub.com/LexxFade/Ivis-Bot')
+        await ctx.send(embed=embed)
+
 #! ==
 
 #?    ___ _ __ _ __ ___  _ __ ___ 
@@ -212,9 +231,9 @@ async def confess_error(ctx, error):
 #! COVID STATS FOR DEFAULT PLACE WOULD BE SHOWED IF NO COUNTRY NAME IS PROVIDED
 @covidstats.error
 async def covidstats_error(ctx, error):
-    #! add default country and state here
+    #! add default country and state here with first letter Capital
     stats = request.covid("default_country", "default_state")
-    embed=discord.Embed(title="°✧ :alembic: **Covid Stats** :microbe: ✧°", description=r"︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
+    embed=discord.Embed(title="°✧ :alembic: **Covid Stats** :microbe: ✧°", description="︶︶︶︶︶︶︶︶︶︶︶︶˚", color=request.random_color())
     embed.set_author(name="ivis-bot", url="https://github.com/LexxFade/Ivis-Bot", icon_url="https://i.ibb.co/4FsyjQR/ivis.png")
     embed.set_thumbnail(url="https://www.distancecme.com/wp-content/uploads/2020/03/coronavirus_round.png")
     embed.add_field(name="Confirmed Cases", value=stats[0], inline=False)
