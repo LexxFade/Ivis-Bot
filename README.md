@@ -31,6 +31,21 @@ API used: [ M-Media-Group - Covid-19-API ](https://github.com/M-Media-Group/Covi
 - `/ping` <br>check ping <br>
 ![ping](https://raw.githubusercontent.com/LexxFade/Ivis-Bot/main/screenshots/ping.png)
 
+### Welcome Message
+Ivis also greets new members by pinging them and informing them about rules and roles channel (if any). These channels and the channel to post greetings can be configured by editing the [main file](https://github.com/LexxFade/Ivis-Bot/blob/main/ivis).<br>
+```py
+ivis
+-------------------------------
+# add welcome channel's id here
+17. welcome_channel_id = "" 
+.
+.
+.
+
+# edit this line. either add channel id like <#channel-dl> or just write its name (case sensitive).
+42. embed.add_field(name="°", value=f"Greetings {member}!\nCheck out #rules and #roles to get started.\n**✧**", inline=False)
+```
+
 ### Extend
 Ivis can be extended in either of the following ways:
 1) add commands in [request.py](https://github.com/LexxFade/Ivis-Bot/blob/main/request.py)
